@@ -21,14 +21,14 @@ export function Navbar() {
     <nav className="relative bg-white shadow-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <span className="text-lg font-bold tracking-tight text-ucsd-gradient">
-          UCSD Safety Alerts
+          <span className="hidden sm:inline">UCSD Safety </span>Alerts
         </span>
-        <div className="flex gap-1">
+        <div className="flex gap-0 sm:gap-1">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-md px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+              className={`rounded-md px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm font-semibold transition-all duration-200 ${
                 pathname === link.href
                   ? "bg-ucsd-gradient text-white shadow-sm"
                   : "text-zinc-600 hover:bg-zinc-100 hover:text-ucsd-navy"
