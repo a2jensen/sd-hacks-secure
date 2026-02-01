@@ -25,9 +25,15 @@ export default function ReportPage() {
   async function handleAnalyze() {
     if (!file) return;
     setStep("analyzing");
-    const result = await analyzePhoto(file);
-    setAssessment(result);
-    setStep("review");
+    try {
+      const result = await analyzePhoto(file);
+      setAssessment(result);
+      setStep("review");
+    } catch (err: any) {
+      console.error("Analyze failed", err);
+      alert(err?.message || "Analysis failed — check server logs or API key.");
+      setStep("photo");
+    }
   }
 
   async function handleSubmit() {

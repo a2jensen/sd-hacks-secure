@@ -29,6 +29,30 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## EyePop.ai integration 🔧
+
+This app can send uploaded photos to EyePop.ai for automatic analysis. To enable it locally:
+
+1. Add your EyePop API key to `.env.local`:
+
+```env
+EYEPOP_API_KEY=sk_...  # or EYEPOP_SECRET_KEY if you already have that
+EYEPOP_POP_ID=...      # optional, some EyePop flows use a pop id
+```
+
+2. (Optional) Install the official SDK if you prefer to use it instead of the HTTP fallback:
+
+```bash
+# in my-app
+pnpm add @eyepop.ai/eyepop
+# or
+npm install @eyepop.ai/eyepop --save
+```
+
+3. Restart the dev server. When you upload a photo and click **Analyze Photo**, the app will POST the file to `/api/analyze`, the server will call EyePop, and the returned tags will be shown as risk labels in the review step.
+
+> If the API key is not configured, the analyze endpoint will return a harmless stubbed analysis so you can continue development.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
