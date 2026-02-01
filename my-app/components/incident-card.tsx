@@ -30,9 +30,13 @@ export function IncidentCard({ incident }: { incident: Incident }) {
           <RiskBadge level={incident.riskAssessment.level} />
           <span className="text-xs text-zinc-400">{timeStr}</span>
         </div>
+        <p className="text-xs font-semibold text-ucsd-navy">EyePop Analysis</p>
         <p className="text-sm text-zinc-700">
           {incident.riskAssessment.summary}
         </p>
+        {incident.description && (
+          <p className="text-sm text-zinc-600">{incident.description}</p>
+        )}
         <p className="text-xs text-zinc-400">
           {incident.latitude.toFixed(4)}, {incident.longitude.toFixed(4)}
         </p>

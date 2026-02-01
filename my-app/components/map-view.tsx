@@ -65,10 +65,13 @@ export default function MapView({ incidents, onMapClick }: MapViewProps) {
                   style={{ maxHeight: 150, objectFit: "cover" }}
                 />
               )}
-              <p className="font-semibold capitalize">
-                {incident.riskAssessment.level} risk
-              </p>
+              <p className="font-semibold text-ucsd-navy">EyePop Analysis</p>
               <p>{incident.riskAssessment.summary}</p>
+              {incident.description && (
+                <p className="mt-1 border-t pt-1 text-zinc-700">
+                  {incident.description}
+                </p>
+              )}
               <p className="mt-1 text-xs text-zinc-400">
                 {incident.createdAt?.toDate
                   ? incident.createdAt.toDate().toLocaleString("en-US", {

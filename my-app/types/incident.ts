@@ -15,5 +15,6 @@ export interface Incident {
   longitude: number;
   photoUrl: string;
   riskAssessment: RiskAssessment;
+  description?: string;
   createdAt: Timestamp;
 }

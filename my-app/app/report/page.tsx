@@ -20,6 +20,7 @@ export default function ReportPage() {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
+  const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   async function handleAnalyze() {
@@ -45,6 +46,7 @@ export default function ReportPage() {
       longitude: location.lng,
       photoUrl,
       riskAssessment: assessment,
+      description: description.trim() || undefined,
     });
     router.push("/map");
   }
@@ -121,9 +123,10 @@ export default function ReportPage() {
       {/* Step 3: Review */}
       {step === "review" && assessment && (
         <div className="flex flex-col gap-4">
+          {/* EyePop Analysis */}
           <div className="rounded-lg border p-4">
             <div className="mb-2 flex items-center justify-between">
-              <span className="font-medium">Risk Assessment</span>
+              <span className="font-semibold text-ucsd-navy">EyePop Analysis</span>
               <RiskBadge level={assessment.level} />
             </div>
             <p className="text-sm text-zinc-600">{assessment.summary}</p>
@@ -141,6 +144,25 @@ export default function ReportPage() {
               Score: {assessment.score}/100
             </p>
           </div>
+
+          {/* User Description */}
+          <div className="rounded-lg border p-4">
+            <label
+              htmlFor="description"
+              className="mb-2 block font-semibold text-ucsd-navy"
+            >
+              Your Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Describe what you see or any additional details..."
+              rows={4}
+              className="w-full resize-none rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 placeholder:text-zinc-400 focus:border-ucsd-navy focus:outline-none"
+            />
+          </div>
+
           <button
             disabled={submitting}
             onClick={handleSubmit}

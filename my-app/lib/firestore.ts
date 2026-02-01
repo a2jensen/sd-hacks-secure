@@ -30,6 +30,7 @@ export async function createIncident(data: {
   longitude: number;
   photoUrl: string;
   riskAssessment: RiskAssessment;
+  description?: string;
 }) {
   return addDoc(collection(getFirebaseDb(), "incidents"), {
     ...data,
