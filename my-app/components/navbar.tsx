@@ -21,7 +21,7 @@ export function Navbar() {
     <nav className="relative bg-white shadow-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <span className="text-lg font-bold tracking-tight text-ucsd-gradient">
-          <span className="hidden sm:inline">UCSD Safety </span>Alerts
+          Tide<span className="hidden sm:inline">Watch</span>
         </span>
         <div className="flex gap-0 sm:gap-1">
           {links.map((link) => (

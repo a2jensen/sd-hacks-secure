@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UCSD Safety Alerts",
+  title: "TideWatch",
   description: "Report and view real-time safety incidents on the UCSD campus.",
 };
 

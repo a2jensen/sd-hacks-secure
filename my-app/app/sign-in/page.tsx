@@ -33,7 +33,7 @@ export default function SignInPage() {
     <div className="bg-ucsd-gradient flex min-h-screen flex-col items-center justify-center gap-8 px-4">
       <div className="flex flex-col items-center gap-3">
         <h1 className="text-4xl font-extrabold tracking-tight text-white">
-          UCSD Safety Alerts
+          TideWatch
         </h1>
         <p className="text-lg text-white/70">
           Sign in with your @ucsd.edu Google account
