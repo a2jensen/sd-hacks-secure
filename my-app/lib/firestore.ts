@@ -52,8 +52,11 @@ export async function createIncident(data: {
   suspectVisible?: boolean;
   suspectDescription?: string;
 }) {
+  const clean = Object.fromEntries(
+    Object.entries(data).filter(([, v]) => v !== undefined)
+  );
   return addDoc(collection(getFirebaseDb(), "incidents"), {
-    ...data,
+    ...clean,
     createdAt: serverTimestamp(),
   });
 }

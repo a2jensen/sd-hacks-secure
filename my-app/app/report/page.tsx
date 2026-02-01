@@ -42,17 +42,23 @@ export default function ReportPage() {
   async function handleSubmit() {
     if (!location || !file || !assessment) return;
     setSubmitting(true);
-    const photoUrl = await uploadIncidentPhoto(file);
-    await createIncident({
-      latitude: location.lat,
-      longitude: location.lng,
-      photoUrl,
-      riskAssessment: assessment,
-      description: description.trim() || undefined,
-      suspectVisible: suspectVisible || undefined,
-      suspectDescription: suspectVisible && suspectDescription.trim() ? suspectDescription.trim() : undefined,
-    });
-    router.push("/map");
+    try {
+      const photoUrl = await uploadIncidentPhoto(file);
+      await createIncident({
+        latitude: location.lat,
+        longitude: location.lng,
+        photoUrl,
+        riskAssessment: assessment,
+        description: description.trim() || undefined,
+        suspectVisible: suspectVisible || undefined,
+        suspectDescription: suspectVisible && suspectDescription.trim() ? suspectDescription.trim() : undefined,
+      });
+      router.push("/map");
+    } catch (err: any) {
+      console.error("Submit failed", err);
+      alert(err?.message || "Failed to submit report.");
+      setSubmitting(false);
+    }
   }
 
   return (
