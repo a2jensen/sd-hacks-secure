@@ -14,7 +14,7 @@ export default function SuspectsPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-2 text-2xl font-bold text-ucsd-navy">Suspects</h1>
+      <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-ucsd-gradient">Suspects</h1>
       <p className="mb-6 text-sm text-zinc-500">
         Incidents where a suspect or individual was identified in the photo.
       </p>

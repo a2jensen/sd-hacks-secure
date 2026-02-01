@@ -16,7 +16,7 @@ export function SuspectCard({ incident }: { incident: Incident }) {
     : "Just now";
 
   return (
-    <div className="overflow-hidden rounded-lg border">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition-all duration-200 hover:shadow-lg">
       {incident.photoUrl && (
         <div className="relative h-56 w-full">
           <Image

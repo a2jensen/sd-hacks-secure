@@ -30,10 +30,12 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-ucsd-navy px-4">
-      <div className="flex flex-col items-center gap-2">
-        <h1 className="text-3xl font-bold text-white">UCSD Safety Alerts</h1>
-        <p className="text-zinc-300">
+    <div className="bg-ucsd-gradient flex min-h-screen flex-col items-center justify-center gap-8 px-4">
+      <div className="flex flex-col items-center gap-3">
+        <h1 className="text-4xl font-extrabold tracking-tight text-white">
+          UCSD Safety Alerts
+        </h1>
+        <p className="text-lg text-white/70">
           Sign in with your @ucsd.edu Google account
         </p>
       </div>
@@ -41,7 +43,7 @@ export default function SignInPage() {
       <button
         onClick={handleSignIn}
         disabled={loading}
-        className="flex items-center gap-3 rounded-lg bg-white px-6 py-3 font-medium text-zinc-800 shadow transition-colors hover:bg-zinc-100 disabled:opacity-50"
+        className="flex items-center gap-3 rounded-xl bg-white px-8 py-4 font-semibold text-zinc-800 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:opacity-50"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path

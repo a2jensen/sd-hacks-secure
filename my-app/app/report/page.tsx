@@ -57,16 +57,16 @@ export default function ReportPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6">
-      <h1 className="mb-6 text-2xl font-bold text-ucsd-navy">Report Incident</h1>
+      <h1 className="mb-6 text-2xl font-extrabold tracking-tight text-ucsd-gradient">Report Incident</h1>
 
       {/* Progress */}
-      <div className="mb-6 flex gap-2 text-sm font-medium">
+      <div className="mb-6 flex gap-2 text-sm font-semibold">
         {(["location", "photo", "review"] as const).map((s, i) => (
           <span
             key={s}
-            className={`rounded-full px-3 py-1 ${
+            className={`rounded-full px-3 py-1 transition-all duration-200 ${
               step === s || (step === "analyzing" && s === "photo")
-                ? "bg-ucsd-navy text-white"
+                ? "bg-ucsd-gradient text-white shadow-sm"
                 : "bg-zinc-100 text-zinc-400"
             }`}
           >
@@ -95,7 +95,7 @@ export default function ReportPage() {
           <button
             disabled={!location}
             onClick={() => setStep("photo")}
-            className="mt-4 w-full rounded-lg bg-ucsd-navy py-3 font-medium text-white disabled:opacity-40"
+            className="bg-ucsd-gradient-subtle mt-4 w-full rounded-xl py-3 font-semibold text-white shadow transition-all duration-200 hover:shadow-md disabled:opacity-40"
           >
             Next
           </button>
@@ -109,7 +109,7 @@ export default function ReportPage() {
           <button
             disabled={!file}
             onClick={handleAnalyze}
-            className="mt-4 w-full rounded-lg bg-ucsd-navy py-3 font-medium text-white disabled:opacity-40"
+            className="bg-ucsd-gradient-subtle mt-4 w-full rounded-xl py-3 font-semibold text-white shadow transition-all duration-200 hover:shadow-md disabled:opacity-40"
           >
             Analyze Photo
           </button>
@@ -194,7 +194,7 @@ export default function ReportPage() {
           <button
             disabled={submitting}
             onClick={handleSubmit}
-            className="w-full rounded-lg bg-ucsd-gold py-3 font-semibold text-white disabled:opacity-50"
+            className="bg-ucsd-gradient-gold w-full rounded-xl py-3 font-semibold text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50"
           >
             {submitting ? "Submitting..." : "Submit Report"}
           </button>

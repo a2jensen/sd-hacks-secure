@@ -14,7 +14,7 @@ export function IncidentCard({ incident }: { incident: Incident }) {
     : "Just now";
 
   return (
-    <div className="flex gap-4 rounded-lg border p-4">
+    <div className="flex gap-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md">
       {incident.photoUrl && (
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md">
           <Image

@@ -18,9 +18,9 @@ export function Navbar() {
   if (!user) return null;
 
   return (
-    <nav className="border-b border-zinc-200 bg-white">
+    <nav className="relative bg-white shadow-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-        <span className="text-lg font-bold text-ucsd-navy">
+        <span className="text-lg font-bold tracking-tight text-ucsd-gradient">
           UCSD Safety Alerts
         </span>
         <div className="flex gap-1">
@@ -28,10 +28,10 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-md px-3 py-2 text-sm font-semibold transition-all duration-200 ${
                 pathname === link.href
-                  ? "bg-ucsd-navy text-white"
-                  : "text-zinc-600 hover:bg-zinc-100"
+                  ? "bg-ucsd-gradient text-white shadow-sm"
+                  : "text-zinc-600 hover:bg-zinc-100 hover:text-ucsd-navy"
               }`}
             >
               {link.label}
@@ -39,6 +39,8 @@ export function Navbar() {
           ))}
         </div>
       </div>
+      {/* Gradient accent line */}
+      <div className="bg-ucsd-gradient h-0.5" />
     </nav>
   );
 }
