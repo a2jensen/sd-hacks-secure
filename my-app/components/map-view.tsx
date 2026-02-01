@@ -55,12 +55,30 @@ export default function MapView({ incidents, onMapClick }: MapViewProps) {
           position={[incident.latitude, incident.longitude]}
           icon={makeIcon(incident.riskAssessment.level)}
         >
-          <Popup>
+          <Popup maxWidth={250}>
             <div className="text-sm">
+              {incident.photoUrl && (
+                <img
+                  src={incident.photoUrl}
+                  alt="Incident photo"
+                  className="mb-2 w-full rounded"
+                  style={{ maxHeight: 150, objectFit: "cover" }}
+                />
+              )}
               <p className="font-semibold capitalize">
                 {incident.riskAssessment.level} risk
               </p>
               <p>{incident.riskAssessment.summary}</p>
+              <p className="mt-1 text-xs text-zinc-400">
+                {incident.createdAt?.toDate
+                  ? incident.createdAt.toDate().toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })
+                  : "Just now"}
+              </p>
             </div>
           </Popup>
         </Marker>
