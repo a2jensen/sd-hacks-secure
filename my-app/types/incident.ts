@@ -16,5 +16,7 @@ export interface Incident {
   photoUrl: string;
   riskAssessment: RiskAssessment;
   description?: string;
+  suspectVisible?: boolean;
+  suspectDescription?: string;
   createdAt: Timestamp;
 }

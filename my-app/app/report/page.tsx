@@ -21,6 +21,8 @@ export default function ReportPage() {
   const [file, setFile] = useState<File | null>(null);
   const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
   const [description, setDescription] = useState("");
+  const [suspectVisible, setSuspectVisible] = useState(false);
+  const [suspectDescription, setSuspectDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   async function handleAnalyze() {
@@ -47,6 +49,8 @@ export default function ReportPage() {
       photoUrl,
       riskAssessment: assessment,
       description: description.trim() || undefined,
+      suspectVisible: suspectVisible || undefined,
+      suspectDescription: suspectVisible && suspectDescription.trim() ? suspectDescription.trim() : undefined,
     });
     router.push("/map");
   }
@@ -161,6 +165,30 @@ export default function ReportPage() {
               rows={4}
               className="w-full resize-none rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 placeholder:text-zinc-400 focus:border-ucsd-navy focus:outline-none"
             />
+          </div>
+
+          {/* Suspect Flag */}
+          <div className="rounded-lg border p-4">
+            <label className="flex cursor-pointer items-center gap-3">
+              <input
+                type="checkbox"
+                checked={suspectVisible}
+                onChange={(e) => setSuspectVisible(e.target.checked)}
+                className="h-4 w-4 accent-ucsd-navy"
+              />
+              <span className="font-semibold text-ucsd-navy">
+                Suspect / individual visible in photo
+              </span>
+            </label>
+            {suspectVisible && (
+              <textarea
+                value={suspectDescription}
+                onChange={(e) => setSuspectDescription(e.target.value)}
+                placeholder="Describe the suspect (clothing, appearance, distinguishing features...)"
+                rows={3}
+                className="mt-3 w-full resize-none rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 placeholder:text-zinc-400 focus:border-ucsd-navy focus:outline-none"
+              />
+            )}
           </div>
 
           <button
