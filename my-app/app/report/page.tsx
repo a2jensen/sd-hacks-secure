@@ -1,0 +1,149 @@
+"use client";
+
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { PhotoUpload } from "@/components/photo-upload";
+import { RiskBadge } from "@/components/risk-badge";
+import { analyzePhoto } from "@/lib/eyepop";
+import { uploadIncidentPhoto } from "@/lib/storage";
+import { createIncident } from "@/lib/firestore";
+import type { RiskAssessment } from "@/types/incident";
+
+const MapView = dynamic(() => import("@/components/map-view"), { ssr: false });
+
+type Step = "location" | "photo" | "analyzing" | "review";
+
+export default function ReportPage() {
+  const router = useRouter();
+  const [step, setStep] = useState<Step>("location");
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleAnalyze() {
+    if (!file) return;
+    setStep("analyzing");
+    const result = await analyzePhoto(file);
+    setAssessment(result);
+    setStep("review");
+  }
+
+  async function handleSubmit() {
+    if (!location || !file || !assessment) return;
+    setSubmitting(true);
+    const photoUrl = await uploadIncidentPhoto(file);
+    await createIncident({
+      latitude: location.lat,
+      longitude: location.lng,
+      photoUrl,
+      riskAssessment: assessment,
+    });
+    router.push("/map");
+  }
+
+  return (
+    <div className="mx-auto max-w-2xl px-4 py-6">
+      <h1 className="mb-6 text-2xl font-bold text-ucsd-navy">Report Incident</h1>
+
+      {/* Progress */}
+      <div className="mb-6 flex gap-2 text-sm font-medium">
+        {(["location", "photo", "review"] as const).map((s, i) => (
+          <span
+            key={s}
+            className={`rounded-full px-3 py-1 ${
+              step === s || (step === "analyzing" && s === "photo")
+                ? "bg-ucsd-navy text-white"
+                : "bg-zinc-100 text-zinc-400"
+            }`}
+          >
+            {i + 1}. {s.charAt(0).toUpperCase() + s.slice(1)}
+          </span>
+        ))}
+      </div>
+
+      {/* Step 1: Location */}
+      {step === "location" && (
+        <div>
+          <p className="mb-3 text-sm text-zinc-600">
+            Click on the map to place the incident location.
+          </p>
+          <div className="h-80 overflow-hidden rounded-lg border">
+            <MapView
+              incidents={[]}
+              onMapClick={(lat, lng) => setLocation({ lat, lng })}
+            />
+          </div>
+          {location && (
+            <p className="mt-2 text-sm text-zinc-500">
+              Selected: {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+            </p>
+          )}
+          <button
+            disabled={!location}
+            onClick={() => setStep("photo")}
+            className="mt-4 w-full rounded-lg bg-ucsd-navy py-3 font-medium text-white disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      )}
+
+      {/* Step 2: Photo */}
+      {step === "photo" && (
+        <div>
+          <PhotoUpload file={file} onFileChange={setFile} />
+          <button
+            disabled={!file}
+            onClick={handleAnalyze}
+            className="mt-4 w-full rounded-lg bg-ucsd-navy py-3 font-medium text-white disabled:opacity-40"
+          >
+            Analyze Photo
+          </button>
+        </div>
+      )}
+
+      {/* Analyzing */}
+      {step === "analyzing" && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-ucsd-navy border-t-transparent" />
+          <p className="text-zinc-600">Analyzing photo with EyePop.ai...</p>
+        </div>
+      )}
+
+      {/* Step 3: Review */}
+      {step === "review" && assessment && (
+        <div className="flex flex-col gap-4">
+          <div className="rounded-lg border p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="font-medium">Risk Assessment</span>
+              <RiskBadge level={assessment.level} />
+            </div>
+            <p className="text-sm text-zinc-600">{assessment.summary}</p>
+            <div className="mt-2 flex flex-wrap gap-1">
+              {assessment.labels.map((label) => (
+                <span
+                  key={label}
+                  className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-zinc-400">
+              Score: {assessment.score}/100
+            </p>
+          </div>
+          <button
+            disabled={submitting}
+            onClick={handleSubmit}
+            className="w-full rounded-lg bg-ucsd-gold py-3 font-semibold text-white disabled:opacity-50"
+          >
+            {submitting ? "Submitting..." : "Submit Report"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
